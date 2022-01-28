@@ -22,3 +22,6 @@ jobs:
         echo $token | docker login ghcr.io -u skylens --password-stdin
         docker tag musl-cross-x86-builder:v0.1 ghcr.io/skylens/musl-cross-x86-builder:v0.1
         docker push ghcr.io/skylens/musl-cross-x86-builder:v0.1
+        echo $token | docker login docker.pkg.github.com -u skylens --password-stdin
+        docker tag musl-cross-x86-builder:v0.1 docker.pkg.github.com/skylens/containe/musl-cross-x86-builder:v0.1
+        docker push docker.pkg.github.com/skylens/containe/musl-cross-x86-builder:v0.1
