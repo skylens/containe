@@ -1,8 +1,6 @@
 name: Shadowsocks-libev Docker Image CI
 
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -18,8 +16,8 @@ jobs:
         token: ${{ secrets.ghcrtoken }}
       run: |
         echo $token | docker login docker.pkg.github.com -u skylens --password-stdin
-        cd shadowsocks;docker build . --file Dockerfile --tag shadowsocks-libev:v0.1
+        cd shadowsocks;docker build . --file Dockerfile --tag shadowsocks-libev:$(git describe --abbrev=0 --tags)
     - name: push docker.pkg.github.com
       run: |
-        docker tag shadowsocks-libev:v0.1 docker.pkg.github.com/skylens/containe/shadowsocks-libev:v0.1
-        docker push docker.pkg.github.com/skylens/containe/shadowsocks-libev:v0.1
+        docker tag shadowsocks-libev:$(git describe --abbrev=0 --tags) docker.pkg.github.com/skylens/containe/shadowsocks-libev:$(git describe --abbrev=0 --tags)
+        docker push docker.pkg.github.com/skylens/containe/shadowsocks-libev:$(git describe --abbrev=0 --tags)
