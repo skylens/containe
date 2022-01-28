@@ -5,5 +5,5 @@ RUN set -ex; bash /opt/build.sh
 FROM debian:stable-slim  
 WORKDIR /opt
 COPY --from=builder /opt/dist/shadowsocks-libev/bin/ /usr/local/bin
-COPY shadowsocks/entrypoint.sh /
+COPY entrypoint.sh /
  
