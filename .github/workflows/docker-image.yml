@@ -13,14 +13,16 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the Docker image
       run: |
-        cd musl-cross;docker build . --file Dockerfile --tag musl-cross-x86-builder:$(git describe --abbrev=0 --tags)
+        tag=$(git describe --abbrev=0 --tags)
+        echo $tag
+        cd musl-cross;docker build . --file Dockerfile --tag musl-cross-x86-builder:$tag
     - name: push ghcr.io
       env:
         token: ${{ secrets.ghcrtoken }}
       run: |
         echo $token | docker login ghcr.io -u skylens --password-stdin
         echo $token | docker login docker.pkg.github.com -u skylens --password-stdin
-        docker tag musl-cross-x86-builder:$(git describe --abbrev=0 --tags) ghcr.io/skylens/musl-cross-x86-builder:$(git describe --abbrev=0 --tags)
-        docker push ghcr.io/skylens/musl-cross-x86-builder:$(git describe --abbrev=0 --tags)
-        docker tag musl-cross-x86-builder:$(git describe --abbrev=0 --tags) docker.pkg.github.com/skylens/containe/musl-cross-x86-builder:$(git describe --abbrev=0 --tags)
-        docker push docker.pkg.github.com/skylens/containe/musl-cross-x86-builder:$(git describe --abbrev=0 --tags)
+        docker tag musl-cross-x86-builder:$tag ghcr.io/skylens/musl-cross-x86-builder:$tag
+        docker push ghcr.io/skylens/musl-cross-x86-builder:$tag
+        docker tag musl-cross-x86-builder:$tag docker.pkg.github.com/skylens/containe/musl-cross-x86-builder:$tag
+        docker push docker.pkg.github.com/skylens/containe/musl-cross-x86-builder:$tag
