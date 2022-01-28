@@ -14,14 +14,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
+      run: |
+        cd musl-cross;docker build . --file Dockerfile --tag musl-cross-x86-builder:v0.1
+    - name: push ghcr.io
       env:
         token: ${{ secrets.ghcrtoken }}
       run: |
         echo $token | docker login docker.pkg.github.com -u skylens --password-stdin
         echo $token | docker login docker.pkg.github.com -u skylens --password-stdin
-        cd musl-cross;docker build . --file Dockerfile --tag musl-cross-x86-builder:v0.1
-    - name: push ghcr.io
-      run: |
         docker tag musl-cross-x86-builder:v0.1 ghcr.io/skylens/musl-cross-x86-builder:v0.1
         docker push ghcr.io/skylens/musl-cross-x86-builder:v0.1
         docker tag musl-cross-x86-builder:v0.1 docker.pkg.github.com/skylens/containe/musl-cross-x86-builder:v0.1
