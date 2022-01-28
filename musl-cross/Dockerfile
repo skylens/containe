@@ -6,6 +6,6 @@ RUN set -xe; cd ~/ && git clone https://github.com/richfelker/musl-cross-make.gi
 RUN set -ex; cd ~/musl-cross-make && wget https://raw.githubusercontent.com/skylens/containe/main/musl-cross/config.mak
 RUN set -xe; cd ~/musl-cross-make && make && make install
 
-FROM debian:stable  
+FROM debian:stable-slim  
 WORKDIR /opt
 COPY --from=builder /opt/* /opt
