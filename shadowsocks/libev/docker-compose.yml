@@ -1,0 +1,11 @@
+version: "3"
+services:
+  shadowsocks:
+    image: shadowsocks/shadowsocks-libev
+    container_name: shadowsocks
+    restart: always
+    environment:
+      - PASSWORD="sdsdadsda"
+    ports:
+      - "127.0.0.1:6443:8388"
+      - "127.0.0.1:6443:8388/udp"

@@ -8,4 +8,4 @@ RUN set -xe; cd ~/musl-cross-make && make && make install
 
 FROM debian:stable-slim  
 WORKDIR /opt
-COPY --from=builder /opt/* /opt
+COPY --from=builder /opt/ /opt

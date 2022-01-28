@@ -1,0 +1,8 @@
+version: "3"
+services:
+  Cloak:
+    image: Cloak
+    container_name: Cloak
+    restart: always
+    ports:
+      - "127.0.0.1:7443:8389"
