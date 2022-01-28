@@ -16,10 +16,8 @@ jobs:
         token: ${{ secrets.ghcrtoken }}
       run: |
         echo $token | docker login docker.pkg.github.com -u skylens --password-stdin
-        tag=$(git describe --abbrev=0 --tags)
-        echo $tag
-        cd shadowsocks;docker build . --file Dockerfile --tag shadowsocks-libev:$tag
+        cd shadowsocks;docker build . --file Dockerfile --tag shadowsocks-libev:latest
     - name: push docker.pkg.github.com
       run: |
-        docker tag shadowsocks-libev:$tag docker.pkg.github.com/skylens/containe/shadowsocks-libev:$tag
-        docker push docker.pkg.github.com/skylens/containe/shadowsocks-libev:$tag
+        docker tag shadowsocks-libev:latest docker.pkg.github.com/skylens/containe/shadowsocks-libev:latest
+        docker push docker.pkg.github.com/skylens/containe/shadowsocks-libev:latest
