@@ -15,9 +15,9 @@ jobs:
       env:
         token: ${{ secrets.ghcrtoken }}
       run: |
-        echo $token | docker login docker.pkg.github.com -u skylens --password-stdin
+        echo $token | docker login ghcr.io -u skylens --password-stdin
         cd shadowsocks;docker build . --file Dockerfile --tag shadowsocks-libev:latest
-    - name: push docker.pkg.github.com
+    - name: push ghcr.io
       run: |
         docker tag shadowsocks-libev:latest ghcr.io/skylens/shadowsocks-libev:latest
         docker push ghcr.io/skylens/shadowsocks-libev:latest
