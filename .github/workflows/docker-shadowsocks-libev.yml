@@ -1,4 +1,4 @@
-name: Shadowsocks-libev Docker Image CI
+name: shadowsocks-libev Docker Image CI
 
 on:
   workflow_dispatch:
@@ -19,5 +19,5 @@ jobs:
         cd shadowsocks;docker build . --file Dockerfile --tag shadowsocks-libev:latest
     - name: push docker.pkg.github.com
       run: |
-        docker tag shadowsocks-libev:latest docker.pkg.github.com/skylens/containe/shadowsocks-libev:latest
-        docker push docker.pkg.github.com/skylens/containe/shadowsocks-libev:latest
+        docker tag shadowsocks-libev:latest ghcr.io/skylens/shadowsocks-libev:latest
+        docker push ghcr.io/skylens/shadowsocks-libev:latest
