@@ -1,4 +1,4 @@
-FROM ghcr.io/skylens/musl-cross-x86-builder:latest AS builder
+FROM ghcr.io/skylens/musl-cross-x64-builder:latest AS builder
 COPY build.sh /opt
 RUN set -ex; bash /opt/build.sh
 
