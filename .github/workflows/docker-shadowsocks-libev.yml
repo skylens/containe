@@ -12,10 +12,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      env:
-        token: ${{ secrets.ghcrtoken }}
       run: |
-        echo $token | docker login ghcr.io -u skylens --password-stdin
+        echo "${{ secrets.ghcrtoken }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
         cd shadowsocks;docker build . --file Dockerfile --tag shadowsocks-libev:latest
     - name: push ghcr.io
       run: |
