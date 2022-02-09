@@ -6,9 +6,6 @@ git clone https://github.com/ginuerzh/gost.git $PREFIX/gost
 cd $PREFIX/gost
 
 env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
-go build -trimpath -ldflags "-s -w -X main.VERSION=$(git tag | tail -1)" -o ./gost ./cmd/gost
-
-env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
 go build -trimpath -ldflags " -s -w -X main.version=$(git describe --abbrev=0 --tags) -buildid=$(date +%FT%T%z)" -o $PREFIX/release/gost/linux/gost ./cmd/gost
 
 env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 \

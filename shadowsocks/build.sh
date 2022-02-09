@@ -5,7 +5,7 @@
 
 apt-get update -y
 apt-get install -y apt-utils
-apt-get install -y --no-install-recommends git wget build-essential binutils ca-certificates file libtool autoconf automake
+apt-get install -y --no-install-recommends git wget build-essential binutils ca-certificates file pkg-config libtool autoconf automake
 update-ca-certificates --fresh
 
 export CC=/opt/x86_64-linux-musl-cross/bin/x86_64-linux-musl-gcc AS=/opt/x86_64-linux-musl-cross/bin/x86_64-linux-musl-as LD=/opt/x86_64-linux-musl-cross/bin/x86_64-linux-musl-ld CXX=/opt/x86_64-linux-musl-cross/bin/x86_64-linux-musl-g++ AR=/opt/x86_64-linux-musl-cross/bin/x86_64-linux-musl-ar RANLIB=/opt/x86_64-linux-musl-cross/bin/x86_64-linux-musl-ranlib
