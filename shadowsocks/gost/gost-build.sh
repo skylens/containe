@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PREFIX='/home/build'
+PREFIX='/opt/dist'
 
 git clone https://github.com/ginuerzh/gost.git $PREFIX/gost
 cd $PREFIX/gost
@@ -37,5 +37,3 @@ go build -trimpath -ldflags " -s -w -X main.version=$(git describe --abbrev=0 --
 
 env CGO_ENABLED=0 GOOS=windows GOARCH=amd64 \
 go build -trimpath -ldflags " -s -w -X main.version=$(git describe --abbrev=0 --tags) -buildid=$(date +%FT%T%z)" -o $PREFIX/release/gost-plugin/windows/gost-plugin.exe
-
-chown -R build:build $PREFIX/release/gost-plugin
