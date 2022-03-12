@@ -1,13 +1,13 @@
 #!/bin/bash
 
-[[ ! -d "/etc/wireguard" ]] && mkdir -p /etc/wireguard/client
+[[ ! -d "/etc/wireguard" ]] && mkdir -p /etc/wireguard/peer
 cd /etc/wireguard
 umask 077; wg genkey | tee serverprivatekey | wg pubkey > serverpublickey
 echo "server keys generated!!!"
-cd /etc/wireguard/client
+cd /etc/wireguard/peer
 umask 077; wg genkey | tee clientprivatekey | wg pubkey > clientpublickey
 umask 077; wg genpsk | tee clientpresharedkey
 echo "one peer keys generated!!!"
 sed "s/ServerPrivateKey/`cat /etc/wireguard/serverprivatekey`/g;s/ClientPublicKey/`cat /etc/wireguard/clientpublickey`/g;s/ClientPSK/`cat /etc/wireguard/clientpresharedkey`/g" /opt/wgs.conf.tmpl | tee /etc/wireguard/wg0.conf
-sed "s/ClientPrivateKey/`cat /etc/wireguard/clientprivatekey`/g;s/ClientPSK/`cat /etc/wireguard/clientpresharedkey`/g;s/ServerPublicKey/`cat /etc/wireguard/serverpublickey`/g" /opt/wgs.conf.tmpl | tee /etc/wireguard/client/client.conf
+sed "s/ClientPrivateKey/`cat /etc/wireguard/peer/clientprivatekey`/g;s/ClientPSK/`cat /etc/wireguard/peer/clientpresharedkey`/g;s/ServerPublicKey/`cat /etc/wireguard/serverpublickey`/g" /opt/wgs.conf.tmpl | tee /etc/wireguard/peer/client.conf
 qr --ascii /etc/wireguard/client/client.conf

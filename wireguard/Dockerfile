@@ -12,9 +12,9 @@ COPY --from=builder /usr/local/bin/qr /usr/local/bin/
 COPY --from=gobuilder /usr/bin/wg* /usr/local/bin/
 RUN set -ex; [[ ! -d "/etc/wireguard" ]] && mkdir /etc/wireguard || echo "directory exit!!!"
 COPY installdeps.sh /opt/
-COPY wg* /opt/
+COPY gensrv /usr/local/bin/
+COPY *.tmpl /opt/
 RUN set -ex; bash /opt/installdeps.sh
-COPY genskey /usr/bin/genskey
-COPY entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /
 
 CMD ["/entrypoint.sh"]
