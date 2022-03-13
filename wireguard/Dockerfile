@@ -4,7 +4,7 @@ RUN set -ex; bash /opt/wireguard-go-build.sh
 
 FROM debian:stable-slim
 COPY --from=gobuilder /usr/bin/wireguard* /usr/local/bin/
-RUN set -ex; [[ ! -d "/etc/wireguard" ]] && mkdir /etc/wireguard || echo "directory exit!!!"
+RUN set -ex; [[ ! -d "/etc/wireguard" ]] && mkdir -p /etc/wireguard/peer || echo "directory exit!!!"
 COPY installdeps.sh /opt/
 COPY gensrv /usr/local/bin/
 COPY *.tmpl /opt/

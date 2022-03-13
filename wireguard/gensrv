@@ -10,4 +10,4 @@ umask 077; wg genpsk | tee clientpresharedkey
 echo "one peer keys generated!!!"
 sed "s/ServerPrivateKey/`cat /etc/wireguard/serverprivatekey`/g;s/ClientPublicKey/`cat /etc/wireguard/clientpublickey`/g;s/ClientPSK/`cat /etc/wireguard/clientpresharedkey`/g" /opt/wgs.conf.tmpl | tee /etc/wireguard/wg0.conf
 sed "s/ClientPrivateKey/`cat /etc/wireguard/peer/clientprivatekey`/g;s/ClientPSK/`cat /etc/wireguard/peer/clientpresharedkey`/g;s/ServerPublicKey/`cat /etc/wireguard/serverpublickey`/g" /opt/wgs.conf.tmpl | tee /etc/wireguard/peer/client.conf
-qr --ascii /etc/wireguard/client/client.conf
+qrencode -t ansiutf8 < /etc/wireguard/peer/client.conf
