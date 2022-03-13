@@ -17,7 +17,7 @@ ver=1.2.11
 wget --no-check-certificate https://zlib.net/zlib-$ver.tar.gz
 tar -xvf zlib-$ver.tar.gz
 cd zlib-$ver
-./configure --prefix=$PREFIX/zlib --static --libdir=$PREFIX/zlib/lib
+./configure --prefix=$prefix/zlib --static --libdir=$prefix/zlib/lib
 make && make install
 cd ..
 
