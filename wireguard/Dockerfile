@@ -7,7 +7,6 @@ COPY --from=gobuilder /usr/bin/wireguard* /usr/local/bin/
 RUN set -ex; [[ ! -d "/etc/wireguard" ]] && mkdir -p /etc/wireguard/peer || echo "directory exit!!!"
 COPY installdeps.sh /opt/
 COPY gensrv /usr/local/bin/
-COPY *.tmpl /opt/
 RUN set -ex; bash /opt/installdeps.sh
 COPY entrypoint.sh /
 

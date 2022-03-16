@@ -1,13 +1,39 @@
 #!/bin/bash
 
-[[ ! -d "/etc/wireguard" ]] && mkdir -p /etc/wireguard/peer
+[[ ! -d "/etc/wireguard/peer" ]] && mkdir -p /etc/wireguard/peer
 cd /etc/wireguard
 umask 077; wg genkey | tee serverprivatekey | wg pubkey > serverpublickey
 echo "server keys generated!!!"
 cd /etc/wireguard/peer
 umask 077; wg genkey | tee clientprivatekey | wg pubkey > clientpublickey
 umask 077; wg genpsk | tee clientpresharedkey
-echo "one peer keys generated!!!"
-sed "s/ServerPrivateKey/`cat /etc/wireguard/serverprivatekey`/g;s/ClientPublicKey/`cat /etc/wireguard/clientpublickey`/g;s/ClientPSK/`cat /etc/wireguard/clientpresharedkey`/g" /opt/wgs.conf.tmpl | tee /etc/wireguard/wg0.conf
-sed "s/ClientPrivateKey/`cat /etc/wireguard/peer/clientprivatekey`/g;s/ClientPSK/`cat /etc/wireguard/peer/clientpresharedkey`/g;s/ServerPublicKey/`cat /etc/wireguard/serverpublickey`/g" /opt/wgs.conf.tmpl | tee /etc/wireguard/peer/client.conf
+echo "client keys generated!!!"
+cat << EOF > /etc/wireguard/wg0.conf
+[Interface]
+Address = 192.168.200.1/32
+ListenPort = 65520
+PrivateKey = $(cat /etc/wireguard/serverprivatekey)
+PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+
+[Peer]
+PublicKey = $(cat /etc/wireguard/peer/clientpublickey)
+PresharedKey = $(cat /etc/wireguard/peer/clientpresharedkey)
+AllowedIPs = 192.168.200.2/32
+EOF
+cat /etc/wireguard/wg0.conf
+echo "server config generated!!!"
+cat << EOF > /etc/wireguard/peer/client.conf
+[Interface]
+Address = 192.168.200.2/24
+PrivateKey = $(cat /etc/wireguard/peer/clientprivatekey)
+
+[Peer]
+Endpoint = server.m.com:65520
+PersistentKeepalive = 25
+PresharedKey = $(cat /etc/wireguard/peer/clientpresharedkey)
+PublicKey = $(cat /etc/wireguard/serverpublickey)
+EOF
+cat /etc/wireguard/peer/client.conf
+echo "client config generated!!!"
 qrencode -t ansiutf8 < /etc/wireguard/peer/client.conf
