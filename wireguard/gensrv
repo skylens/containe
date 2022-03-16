@@ -29,7 +29,7 @@ Address = 192.168.200.2/24
 PrivateKey = $(cat /etc/wireguard/peer/clientprivatekey)
 
 [Peer]
-Endpoint = server.m.com:65520
+Endpoint = $(curl http://ipecho.net/plain):65520
 PersistentKeepalive = 25
 PresharedKey = $(cat /etc/wireguard/peer/clientpresharedkey)
 PublicKey = $(cat /etc/wireguard/serverpublickey)

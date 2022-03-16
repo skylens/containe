@@ -7,6 +7,7 @@ COPY --from=gobuilder /usr/bin/wireguard* /usr/local/bin/
 COPY installdeps.sh /opt/
 COPY gensrv /usr/local/bin/
 RUN set -ex; bash /opt/installdeps.sh
+RUN set -ex; /usr/local/bin/gensrv > /etc/wireguard/gensrv.log
 COPY entrypoint.sh /
 
 CMD ["/entrypoint.sh"]
