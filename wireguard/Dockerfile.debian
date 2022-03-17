@@ -1,4 +1,4 @@
-FROM golang:1.17.8-buster AS gobuilder
+FROM golang:1.18.0-buster AS gobuilder
 COPY wireguard-go-build.sh /opt
 RUN set -ex; bash /opt/wireguard-go-build.sh
 
@@ -7,7 +7,6 @@ COPY --from=gobuilder /usr/bin/wireguard* /usr/local/bin/
 COPY installdeps.sh /opt/
 COPY gensrv /usr/local/bin/
 RUN set -ex; bash /opt/installdeps.sh
-RUN set -ex; /usr/local/bin/gensrv > /etc/wireguard/gensrv.log
 COPY entrypoint.sh /
 
 CMD ["/entrypoint.sh"]
