@@ -4,13 +4,6 @@
 cd /etc/wireguard
 umask 077; wg genkey | tee serverprivatekey | wg pubkey > serverpublickey
 echo "server keys generated!!!"
-<<<<<<< HEAD
-umask 077; wg genkey | tee /etc/wireguard/peer/clientprivatekey | wg pubkey > /etc/wireguard/peer/clientpublickey
-umask 077; wg genpsk | tee /etc/wireguard/peer/clientpresharedkey
-echo "one peer keys generated!!!"
-sed "s/ServerPrivateKey/`cat /etc/wireguard/serverprivatekey`/g;s/ClientPublicKey/`cat /etc/wireguard/peer/clientpublickey`/g;s/ClientPSK/`cat /etc/wireguard/peer/clientpresharedkey`/g" /opt/wgs.conf.tmpl | tee /etc/wireguard/wg0.conf
-sed "s/ClientPrivateKey/`cat /etc/wireguard/peer/clientprivatekey`/g;s/ClientPSK/`cat /etc/wireguard/peer/clientpresharedkey`/g;s/ServerPublicKey/`cat /etc/wireguard/serverpublickey`/g" /opt/wgs.conf.tmpl | tee /etc/wireguard/peer/client.conf
-=======
 cd /etc/wireguard/peer
 umask 077; wg genkey | tee clientprivatekey | wg pubkey > clientpublickey
 umask 077; wg genpsk | tee clientpresharedkey
@@ -37,11 +30,11 @@ PrivateKey = $(cat /etc/wireguard/peer/clientprivatekey)
 
 [Peer]
 Endpoint = $(curl http://ipecho.net/plain):65520
-PersistentKeepalive = 25
+PersistentKeepalive = 5
+AllowedIPs = 1.0.0.0/8, 2.0.0.0/8, 3.0.0.0/8, 4.0.0.0/6, 8.0.0.0/7, 11.0.0.0/8, 12.0.0.0/6, 16.0.0.0/4, 32.0.0.0/3, 64.0.0.0/2, 128.0.0.0/3, 160.0.0.0/5, 168.0.0.0/6, 172.0.0.0/12, 172.32.0.0/11, 172.64.0.0/10, 172.128.0.0/9, 173.0.0.0/8, 174.0.0.0/7, 176.0.0.0/4, 192.0.0.0/9, 192.128.0.0/11, 192.160.0.0/13, 192.169.0.0/16, 192.170.0.0/15, 192.172.0.0/14, 192.176.0.0/12, 192.192.0.0/10, 193.0.0.0/8, 194.0.0.0/7, 196.0.0.0/6, 200.0.0.0/5, 208.0.0.0/4, 192.168.200.0/24, 8.8.8.8/32
 PresharedKey = $(cat /etc/wireguard/peer/clientpresharedkey)
 PublicKey = $(cat /etc/wireguard/serverpublickey)
 EOF
 cat /etc/wireguard/peer/client.conf
 echo "client config generated!!!"
->>>>>>> 1d127d10c5249bee95b49aea019521c9e537ca8c
 qrencode -t ansiutf8 < /etc/wireguard/peer/client.conf

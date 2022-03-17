@@ -12,7 +12,9 @@ docker run --rm -v /opt/wireguard:/etc/wireguard -it ghcr.io/skylens/wireguard-g
 
 docker run -d --name wireguard-go -p 65520:65520 -v /opt/wireguard:/etc/wireguard ghcr.io/skylens/wireguard-go:latest
 
-docker build . --file Dockerfile --tag wireguard-go:latest
+docker build . --file Dockerfile.debian --tag wireguard-go:latest-debian
+
+docker build . --file Dockerfile.apline --tag wireguard-go:latest-apline
 
 docker run --rm -v /opt/wireguard:/etc/wireguard -it ghcr.io/skylens/wireguard-go:latest gensrv
 
