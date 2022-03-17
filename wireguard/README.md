@@ -27,5 +27,5 @@ cd wireguard
 docker run --rm -v /opt/wireguard:/etc/wireguard -it ghcr.io/skylens/wireguard-go:latest-apline gensrv
 docker-compose up -d
 
-docker-compose exec wireguard bash
+docker-compose exec wireguard-go bash
 ```
