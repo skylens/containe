@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   wireguard:
-    image: wireguard-go:latest
+    image: wireguard-go:latest-apline
     cap_add:
      - NET_ADMIN
     sysctls:
