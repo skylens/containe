@@ -1,0 +1,23 @@
+FROM golang:1.18.0-alpine3.15 AS gobuilder
+RUN apk add --update git build-base libmnl-dev iptables
+
+RUN git clone https://github.com/WireGuard/wireguard-go && \
+    cd wireguard-go && \
+    make && \
+    make install
+
+ENV WITH_WGQUICK=yes
+RUN git clone https://github.com/WireGuard/wireguard-tools && \
+    cd wireguard-tools && \
+    cd src && \
+    make && \
+    make install
+
+FROM alpine:3.15
+RUN apk add --no-cache --update bash libmnl iptables openresolv iproute2 libqrencode curl
+
+COPY --from=gobuilder /usr/bin/wireguard-go /usr/bin/wg* /usr/bin/
+COPY gensrv /usr/local/bin/
+COPY entrypoint.sh /entrypoint.sh
+
+CMD ["/entrypoint.sh"]
