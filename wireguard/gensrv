@@ -27,6 +27,7 @@ cat << EOF > /etc/wireguard/peer/client.conf
 [Interface]
 Address = 192.168.200.2/24
 PrivateKey = $(cat /etc/wireguard/peer/clientprivatekey)
+DNS = 8.8.8.8
 
 [Peer]
 Endpoint = $(curl http://ipecho.net/plain):65520
@@ -37,4 +38,4 @@ PublicKey = $(cat /etc/wireguard/serverpublickey)
 EOF
 cat /etc/wireguard/peer/client.conf
 echo "client config generated!!!"
-qrencode -t ansiutf8 < /etc/wireguard/peer/client.conf
+qrencode -t ansiutf8 < /etc/wireguard/peer/client.conf | tee /etc/wireguard/peer/client.log
