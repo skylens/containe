@@ -5,4 +5,4 @@ RUN set -ex; wget -O /tmp/VMware-Workstation-Full.bundle ${vmware_download_link}
 RUN set -ex; chmod +x /tmp/VMware-Workstation-Full.bundle && /tmp/VMware-Workstation-Full.bundle
 
 FROM debian:stable-slim
-COPY --from=builder /usr/lib/vmware-ovftool/ovftool/* /usr/local/bin/
+COPY --from=builder /usr/lib/vmware-ovftool/* /usr/local/bin/
