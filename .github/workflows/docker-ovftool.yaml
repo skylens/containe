@@ -1,0 +1,23 @@
+name: ovftool Docker Image CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: |
+        echo "${{ secrets.ghcrtoken }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        cd ovftool
+        docker build . --file Dockerfile --tag ovftool:latest
+
+    - name: push ghcr.io
+      run: |
+        docker tag wireguard-go:latest-debian ghcr.io/skylens/ovftool:latest
+        docker push ghcr.io/skylens/ovftool:latest
