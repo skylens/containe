@@ -16,12 +16,13 @@ jobs:
         echo "${{ secrets.ghcrtoken }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
         cd ovftool
         docker build . --file Dockerfile --tag ovftool:latest
+        docker run --rm --name=ovftool -it ovftool:latest ovftool --help
 
-    - name: push ghcr.io
-      run: |
-        docker tag wireguard-go:latest-debian ghcr.io/skylens/ovftool:latest
-        docker push ghcr.io/skylens/ovftool:latest
+    # - name: push ghcr.io
+    #   run: |
+    #     docker tag wireguard-go:latest-debian ghcr.io/skylens/ovftool:latest
+    #     docker push ghcr.io/skylens/ovftool:latest
         
-    - name: test
-      run: |
-       docker run --rm --name=ovftool -it ghcr.io/skylens/ovftool:latest ovftool --help
+    # - name: test
+    #   run: |
+    #    docker run --rm --name=ovftool -it ghcr.io/skylens/ovftool:latest ovftool --help
