@@ -17,7 +17,6 @@ jobs:
         cd ovftool
         docker build . --file Dockerfile --tag ovftool:latest
         docker images
-        docker run --rm --name=ovftool -it ovftool:latest ovftool --help
 
     - name: push ghcr.io
       run: |
