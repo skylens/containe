@@ -17,13 +17,13 @@ jobs:
         cd ovftool
         docker build . --file Dockerfile --tag ovftool:latest
         docker images
-        docker run --rm --name=ovftool -it ovftool:latest ovftool --help
+        docker run --rm --name=ovftool -it ovftool:latest ovftool
 
-    # - name: push ghcr.io
-    #   run: |
-    #     docker tag wireguard-go:latest-debian ghcr.io/skylens/ovftool:latest
-    #     docker push ghcr.io/skylens/ovftool:latest
+    - name: push ghcr.io
+      run: |
+        docker tag wireguard-go:latest-debian ghcr.io/skylens/ovftool:latest
+        docker push ghcr.io/skylens/ovftool:latest
         
-    # - name: test
-    #   run: |
-    #    docker run --rm --name=ovftool -it ghcr.io/skylens/ovftool:latest ovftool --help
+    - name: test
+      run: |
+       docker run --rm --name=ovftool -it ghcr.io/skylens/ovftool:latest ovftool --help
