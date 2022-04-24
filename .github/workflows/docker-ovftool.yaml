@@ -22,7 +22,3 @@ jobs:
       run: |
         docker tag ovftool:latest ghcr.io/skylens/ovftool:latest
         docker push ghcr.io/skylens/ovftool:latest
-        
-    - name: test
-      run: |
-       docker run --rm --name=ovftool -it ghcr.io/skylens/ovftool:latest ovftool --help
