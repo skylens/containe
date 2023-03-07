@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -e
+
+up() {
+  sleep 5
+
+  tailscale up \
+    --accept-dns=${TAILSCALE_ACCEPT_DNS:-false} \
+    --accept-routes=${TAILSCALE_ACCEPT_ROUTES:-true} \
+    --hostname=${TAILSCALE_HOSTNAME:-$(hostname)} \
+    --login-server=${TAILSCALE_LOGIN_SERVER:-"https://login.tailscale.com"} \
+    --netfilter-mode=${TAILSCALE_NETFILTER_MODE:-on} \
+    --snat-subnet-routes=${TAILSCALE_SNAT_SUBNET_ROUTES:-true}
+}
+
+if [ ! -d /dev/net ]; then mkdir /dev/net; fi
+if [ ! -e /dev/net/tun ]; then mknod /dev/net/tun c 10 200; fi
+
+up & tailscaled \
+  -port ${TAILSCALED_PORT:-0} \
+  -socket ${TAILSCALED_SOCKET:-"/var/run/tailscale/tailscaled.sock"} \
+  -state ${TAILSCALED_STATE:-"/var/lib/tailscale/tailscaled.state"} \
+  -tun ${TAILSCALED_TUN:-"tailscale0"} \
+  -verbose ${TAILSCALED_VERBOSE:-0}

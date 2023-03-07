@@ -1,0 +1,22 @@
+name: tailscale Docker Image CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: |
+        echo "${{ secrets.ghcrtoken }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        cd tailscale
+        docker build . --file Dockerfile --tag tailscale:latest
+    - name: push ghcr.io
+      run: |
+        docker tag tailscale:latest ghcr.io/skylens/tailscale:latest
+        docker push ghcr.io/skylens/tailscale:latest
